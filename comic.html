@@ -145,12 +145,11 @@ function moveImage(){
   panelWidth  = coords[currCoord].width 
 
   scale = Math.min(windowHeight/panelHeight, windowWidth/panelWidth);
-  alert(windowHeight/panelHeight)
-  alert(windowWidth/panelWidth)
 
   document.documentElement.style.setProperty('--img-y-offset', (windowHeight - (scale*panelHeight))/2-(coords[currCoord].yOffset * scale)+'px')
   document.documentElement.style.setProperty('--img-x-offset', (windowWidth - (scale*panelWidth))/2-(coords[currCoord].xOffset * scale)+'px')
 
+  let sideWidth = ((windowWidth - (scale*panelWidth))/2) > 0 ? ((windowWidth - (scale*panelWidth))/2) : 0;
   document.documentElement.style.setProperty('--side-width', ((windowWidth - (scale*panelWidth))/2)+'px')
   let topHeight = ((windowHeight - (scale*panelHeight))/2) > 0 ? ((windowHeight - (scale*panelHeight))/2) : 0;
   document.documentElement.style.setProperty('--top-height', topHeight+'px')
