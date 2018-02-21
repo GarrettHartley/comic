@@ -120,12 +120,15 @@ function handleTouchMove(evt) {
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
+                        if(currCoord != coords.length - 1){
+        currCoord = currCoord + 1
+        moveImage()
+      }
+
+        } else {
                   if(currCoord !=0){
         currCoord = currCoord - 1
-      }
-        } else {
-                  if(currCoord != coords.length - 1){
-        currCoord = currCoord + 1
+        moveImage()
       }
         }                       
     } 
