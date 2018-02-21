@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+
+:root{
+	--top-height: 115px;
+	--side-width: 75px;
+	--img-x-offset: 0px;
+	--img-y-offset: 0px;
+	--img-height:2135px;
+	--img-width:1440px;
+  --scale:1;
+}
+
+
+.border{
+	background-color: white;
+}
+.item-a {
+  grid-area: topRow;
+}
+.item-b {
+  grid-area: sideLeft;
+}
+.item-c {
+  grid-area: sideRight;
+}
+.item-d {
+  grid-area: bottomRow;
+}
+
+
+body{
+	overflow:hidden;
+  margin:0px;
+  background-color:white;
+}
+
+
+.comicPage{
+	background-image: url("comic.png");
+    position: absolute;
+    width: var(--img-width);
+    height: var(--img-height);  
+    background-repeat:no-repeat;
+    background-size:contain;
+    transform:  translateY(var(--img-y-offset)) translateX(var(--img-x-offset)) ;
+    transition: transform 500ms ease-in-out,width 500ms ease-in-out,height 500ms ease-in-out;
+}
+
+
+.container {
+	position: absolute;
+	height:100vh;
+	width:100vw;
+	display:grid;
+	z-index:100;
+  grid-template-columns: var(--side-width) auto var(--side-width);
+  grid-template-rows: var(--top-height) auto var(--top-height);
+  grid-template-areas: 
+    "topRow topRow topRow"
+    "sideLeft . sideRight"
+    "bottomRow bottomRow bottomRow ";
+}
+</style>
+</head>
+<body>
+
+	<section class="container">
+		<div class="item-a border"></div>
+  <div class="item-b border" ></div>
+  <div class="item-c border"></div>
+  <div class="item-d border"></div>
+	</section>
+	<div class="comicPage"> </div>
+
+
+<script>
+function moveImage(){
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+    panelHeight = coords[currCoord].height;
+  panelWidth  = coords[currCoord].width 
+
+  scale = Math.min(windowHeight/panelHeight, windowWidth/panelWidth);
+
+  document.documentElement.style.setProperty('--img-y-offset', (windowHeight - (scale*panelHeight))/2-(coords[currCoord].yOffset * scale)+'px')
+  document.documentElement.style.setProperty('--img-x-offset', (windowWidth - (scale*panelWidth))/2-(coords[currCoord].xOffset * scale)+'px')
+
+  document.documentElement.style.setProperty('--side-width', ((windowWidth - (scale*panelWidth))/2)+'px')
+  document.documentElement.style.setProperty('--top-height', ((windowHeight - (scale*panelHeight))/2)+'px')
+
+  document.documentElement.style.setProperty('--img-height', scale*pageHeight+'px')
+  document.documentElement.style.setProperty('--img-width', scale*pageWidth+'px')
+}
+
+function moveCoord(e) {
+
+    e = e || window.event;
+
+   if (e.keyCode == '65') {
+      if(currCoord !=0){
+        currCoord = currCoord - 1
+      }
+    }
+    else if (e.keyCode == '68') {
+      if(currCoord != coords.length - 1){
+        currCoord = currCoord + 1
+      }
+    }
+    moveImage()
+
+}
+
+window.addEventListener("resize", moveImage);
+
+
+	let coords = [
+  {width:'1440', height:'2135', xOffset:0, yOffset:0},
+  {width:'720', height:'841', xOffset:0, yOffset:0},
+  {width:'720', height:'841', xOffset:720, yOffset:0},
+  {width:'630', height:'440', xOffset:0, yOffset:841},
+  {width:'770', height:'440', xOffset:630, yOffset:841},
+  {width:'555', height:'852', xOffset:0, yOffset:1287},
+  {width:'885', height:'852', xOffset:555, yOffset:1287}
+  ]
+
+  let pageHeight = 2135;
+  let pageWidth = 1440;
+  let panelHeight = 0;
+  let panelWidth = 0;
+  let scale = 0;
+
+	document.onkeydown = moveCoord;
+
+	let currCoord = 0;
+
+  moveImage()
+
+
+
+
+
+
+</script>
+</body>
+</html>
