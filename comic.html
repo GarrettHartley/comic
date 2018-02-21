@@ -46,8 +46,11 @@ body{
     height: var(--img-height);  
     background-repeat:no-repeat;
     background-size:contain;
-    transform:  translateY(var(--img-y-offset)) translateX(var(--img-x-offset)) ;
-    transition: transform 500ms ease-in-out,width 500ms ease-in-out,height 500ms ease-in-out;
+    top:var(--img-y-offset);
+    left:var(--img-x-offset);
+    transition: top 500ms ease-in-out, left 500ms ease-in-out, width 500ms ease-in-out,height 500ms ease-in-out;
+    -webkit-transition: top 500ms ease-in-out, left 500ms ease-in-out, width 500ms ease-in-out,height 500ms ease-in-out;
+
 }
 
 
