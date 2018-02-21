@@ -152,7 +152,8 @@ function moveImage(){
   document.documentElement.style.setProperty('--img-x-offset', (windowWidth - (scale*panelWidth))/2-(coords[currCoord].xOffset * scale)+'px')
 
   document.documentElement.style.setProperty('--side-width', ((windowWidth - (scale*panelWidth))/2)+'px')
-  document.documentElement.style.setProperty('--top-height', ((windowHeight - (scale*panelHeight))/2)+'px')
+  let topHeight = ((windowHeight - (scale*panelHeight))/2) > 0 ? ((windowHeight - (scale*panelHeight))/2) : 0;
+  document.documentElement.style.setProperty('--top-height', topHeight+'px')
 
   document.documentElement.style.setProperty('--img-height', scale*pageHeight+'px')
   document.documentElement.style.setProperty('--img-width', scale*pageWidth+'px')
