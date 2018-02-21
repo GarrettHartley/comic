@@ -48,8 +48,8 @@ body{
     background-size:contain;
     top:var(--img-y-offset);
     left:var(--img-x-offset);
-    transition: top 500ms ease-in-out, left 500ms ease-in-out, width 500ms ease-in-out,height 500ms ease-in-out;
-    -webkit-transition: top 500ms ease-in-out, left 500ms ease-in-out, width 500ms ease-in-out,height 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
 
 }
 
@@ -66,7 +66,17 @@ body{
     "topRow topRow topRow"
     "sideLeft . sideRight"
     "bottomRow bottomRow bottomRow ";
+      -webkit-grid-template-columns: var(--side-width) auto var(--side-width);
+  -webkit-grid-template-rows: var(--top-height) auto var(--top-height);
+  -webkit-grid-template-areas: 
+    "topRow topRow topRow"
+    "sideLeft . sideRight"
+    "bottomRow bottomRow bottomRow ";
 }
+
+
+
+
 </style>
 </head>
 <body>
