@@ -114,6 +114,9 @@ body{
 <script>
 
 
+
+
+
 document.addEventListener('touchstart', handleTouchStart, false);        
 document.addEventListener('touchmove', handleTouchMove, false);
 
@@ -248,7 +251,10 @@ window.addEventListener("resize", moveImage);
     {coords:coordsPageThree,  pageUrl:'page_three.png'},
      {coords:coordsPageFour,  pageUrl:'page_four.png'})
 
-
+for(let i = 0; i<pages.length; i++){
+let my_image = new Image();
+my_image.src = pages[i].pageUrl;
+}
 
   const pageHeight = 1800;
   const pageWidth = 1200;
