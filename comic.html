@@ -10,9 +10,10 @@
 	--side-width: 75px;
 	--img-x-offset: 0px;
 	--img-y-offset: 0px;
-	--img-height:2135px;
-	--img-width:1440px;
+	--img-height:1800px;
+	--img-width:1200px;
   --scale:1;
+  --img-url: url("page_one.png");
 }
 
 
@@ -21,15 +22,19 @@
 }
 .item-a {
   grid-area: topRow;
+  border-bottom:solid 3px black;
 }
 .item-b {
   grid-area: sideLeft;
+  border-right: solid 3px black;
 }
 .item-c {
   grid-area: sideRight;
+  border-left: solid 3px black;
 }
 .item-d {
   grid-area: bottomRow;
+  border-top:solid 3px black;
 }
 
 
@@ -41,7 +46,7 @@ body{
 
 
 .comicPage{
-	background-image: url("comic.png");
+	background-image: var(--img-url);
     position: absolute;
     width: var(--img-width);
     height: var(--img-height);  
@@ -75,6 +80,8 @@ body{
     "topRow topRow topRow"
     "sideLeft . sideRight"
     "bottomRow bottomRow bottomRow ";
+       transition: all 500ms ease-in-out;
+    -webkit-transition: all 500ms ease-in-out;
 }
 
 
@@ -96,7 +103,7 @@ body{
 <script>
 
 
-  document.addEventListener('touchstart', handleTouchStart, false);        
+document.addEventListener('touchstart', handleTouchStart, false);        
 document.addEventListener('touchmove', handleTouchMove, false);
 
 var xDown = null;                                                        
@@ -120,16 +127,10 @@ function handleTouchMove(evt) {
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
-                        if(currCoord != coords.length - 1){
-        currCoord = currCoord + 1
-        moveImage()
-      }
+          moveRight()
 
         } else {
-                  if(currCoord !=0){
-        currCoord = currCoord - 1
-        moveImage()
-      }
+          moveLeft()
         }                       
     } 
     /* reset values */
@@ -139,12 +140,13 @@ function handleTouchMove(evt) {
 
 
 function moveImage(){
-    let windowWidth = window.innerWidth;
-    let windowHeight = window.innerHeight;
-    panelHeight = coords[currCoord].height;
-  panelWidth  = coords[currCoord].width 
+  let windowWidth = window.innerWidth;
+  let windowHeight = window.innerHeight;
+  coords = pages[currPage].coords
+  let panelHeight = coords[currCoord].height;
+  let panelWidth  = coords[currCoord].width 
 
-  scale = Math.min(windowHeight/panelHeight, windowWidth/panelWidth);
+  let scale = Math.min(windowHeight/panelHeight, windowWidth/panelWidth);
 
   document.documentElement.style.setProperty('--img-y-offset', (windowHeight - (scale*panelHeight))/2-(coords[currCoord].yOffset * scale)+'px')
   document.documentElement.style.setProperty('--img-x-offset', (windowWidth - (scale*panelWidth))/2-(coords[currCoord].xOffset * scale)+'px')
@@ -158,46 +160,90 @@ function moveImage(){
   document.documentElement.style.setProperty('--img-width', scale*pageWidth+'px')
 }
 
+function moveRight(){
+      if(currCoord >= (pages[currPage].coords.length-1)){
+        currPage = currPage == 3 ? 0 : (currPage+1)
+        currCoord = 0
+        document.documentElement.style.setProperty('--img-url', 'url(\"'+pages[currPage].pageUrl+'\")')
+      }
+      else if(currCoord != coords.length - 1){
+        currCoord = currCoord + 1
+      }
+}
+
+function moveLeft(){
+      if(currCoord == 0 ){
+        currPage = currPage == 0 ? 0 : (currPage-1)
+        currCoord = (pages[currPage].coords.length-1)
+        document.documentElement.style.setProperty('--img-url', 'url(\"'+pages[currPage].pageUrl+'\")')
+      }
+      else if(currCoord !=0){
+        currCoord = currCoord - 1
+      }
+}
+
 function moveCoord(e) {
 
     e = e || window.event;
 
+
    if (e.keyCode == '65') {
-      if(currCoord !=0){
-        currCoord = currCoord - 1
-      }
+      moveLeft()
     }
-    else if (e.keyCode == '68') {
-      if(currCoord != coords.length - 1){
-        currCoord = currCoord + 1
-      }
+    
+    if (e.keyCode == '68') {
+      moveRight()
     }
+
     moveImage()
 
 }
 
 window.addEventListener("resize", moveImage);
 
-
-	let coords = [
-  {width:'1440', height:'2135', xOffset:0, yOffset:0},
-  {width:'720', height:'841', xOffset:0, yOffset:0},
-  {width:'720', height:'841', xOffset:720, yOffset:0},
-  {width:'630', height:'440', xOffset:0, yOffset:841},
-  {width:'770', height:'440', xOffset:630, yOffset:841},
-  {width:'555', height:'852', xOffset:0, yOffset:1287},
-  {width:'885', height:'852', xOffset:555, yOffset:1287}
+  
+	let coordsPageOne = [
+  {width:'1200', height:'1800', xOffset:0, yOffset:0}
+  ]
+  let coordsPageTwo = new Array(
+  {width:'1200', height:'1800', xOffset:0, yOffset:0},
+  {width:'1200', height:'450', xOffset:0, yOffset:0},
+  {width:'1200', height:'450', xOffset:0, yOffset:450},
+  {width:'1200', height:'450', xOffset:0, yOffset:900},
+  {width:'1200', height:'450', xOffset:0, yOffset:1350}
+  )
+  let coordsPageThree = new Array(
+  {width:'1200', height:'1800', xOffset:0, yOffset:0},
+    {width:'462', height:'593', xOffset:0, yOffset:0},
+  {width:'718', height:'593', xOffset:462, yOffset:0},
+  {width:'752', height:'452', xOffset:0, yOffset:593},
+  {width:'448', height:'452', xOffset:752, yOffset:593},
+  {width:'1200', height:'755', xOffset:0, yOffset:1045}
+  )
+  let coordsPageFour = [
+  {width:'1200', height:'1800', xOffset:0, yOffset:0},
+  {width:'604', height:'702', xOffset:0, yOffset:0},
+  {width:'596', height:'702', xOffset:604, yOffset:0},
+  {width:'530', height:'380', xOffset:0, yOffset:702},
+  {width:'674', height:'380', xOffset:526, yOffset:702},
+  {width:'467', height:'718', xOffset:0, yOffset:1082},
+  {width:'723', height:'718', xOffset:467, yOffset:1082}
   ]
 
-  let pageHeight = 2135;
-  let pageWidth = 1440;
-  let panelHeight = 0;
-  let panelWidth = 0;
-  let scale = 0;
+  let pages = new Array({coords:coordsPageOne, pageUrl:'page_one.png'},
+   {coords:coordsPageTwo,  pageUrl:'page_two.png'},
+    {coords:coordsPageThree,  pageUrl:'page_three.png'},
+     {coords:coordsPageFour,  pageUrl:'page_four.png'})
+
+
+
+  const pageHeight = 1800;
+  const pageWidth = 1200;
 
 	document.onkeydown = moveCoord;
 
 	let currCoord = 0;
+  let currPage = 0;
 
   moveImage()
 
