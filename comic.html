@@ -22,19 +22,15 @@
 }
 .item-a {
   grid-area: topRow;
-  border-bottom:solid 3px black;
 }
 .item-b {
   grid-area: sideLeft;
-  border-right: solid 3px black;
 }
 .item-c {
   grid-area: sideRight;
-  border-left: solid 3px black;
 }
 .item-d {
   grid-area: bottomRow;
-  border-top:solid 3px black;
 }
 
 
@@ -128,9 +124,11 @@ function handleTouchMove(evt) {
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
         if ( xDiff > 0 ) {
           moveRight()
+          moveImage()
 
         } else {
           moveLeft()
+          moveImage()
         }                       
     } 
     /* reset values */
